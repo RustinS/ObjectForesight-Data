@@ -98,7 +98,20 @@ This pipeline is built on the third-party systems listed in the [pipeline table]
 
 ## License
 
-Pipeline code is for **non-commercial research**. It is a derivative-processing pipeline over **EPIC-KITCHENS-100** (CC BY-NC 4.0). **Each bundled component retains its own license** (e.g. FoundationPose is NVIDIA source-available / non-commercial) — review and comply with each before use or redistribution.
+The pipeline orchestration code (`step*.py`, `utils.py`) is released for **non-commercial research**. It is a derivative-processing pipeline over **EPIC-KITCHENS-100** (CC BY-NC 4.0).
+
+Each bundled component keeps its **own license** (retained in its subdirectory):
+
+| Component | License | Commercial use |
+|---|---|---|
+| EgoHOS | MIT | ✅ |
+| SAM 2 | Apache-2.0 | ✅ |
+| Diffusion-VAS | MIT | ✅ |
+| TRELLIS (core) | MIT | ✅ |
+| SpaTrackerV2 | CC BY-NC 4.0 | ❌ non-commercial |
+| FoundationPose | NVIDIA Source Code License | ❌ non-commercial / research only |
+
+> ⚠️ **Because of SpaTrackerV2 (CC BY-NC 4.0), FoundationPose (NVIDIA Source Code License), and EPIC-KITCHENS-100 itself, this pipeline and its outputs are restricted to non-commercial research use.** All bundled components permit redistribution under their terms provided their LICENSE files are retained (they are). TRELLIS's optional renderer submodules (diffoctreerast, FlexiCubes), if installed, carry their own non-commercial licenses. Review and comply with each component's license before use or redistribution.
 
 ## Citation
 
