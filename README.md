@@ -4,11 +4,9 @@
 
 This is the data pipeline behind [**ObjectForesight**](https://arxiv.org/abs/2601.05237). It produces the extractions released as the [`raivn/ObjectForesight-EPIC`](https://huggingface.co/datasets/raivn/ObjectForesight-EPIC) dataset, which trains the model in [**RustinS/ObjectForesight**](https://github.com/RustinS/ObjectForesight).
 
-> ⚠️ **Heavy, multi-environment pipeline.** Each stage wraps a separate third-party system (EgoHOS, SAM 2, Diffusion-VAS, TRELLIS, SpaTrackerV2, FoundationPose, InternVL), each with **its own environment, model weights, and license** (several **non-commercial**). This is *not* a one-command install — set up each component independently. The components are vendored here for convenience; see each subdirectory's upstream project for installation, weights, and license terms.
+## Pipeline
 
-## Pipeline (run in order)
-
-Each step is **sharded** (process a subset of clips per job) so the pipeline parallelizes across many GPUs.
+Run `step1`→`step10` in order. Each step is **sharded** (`--num_shards N --shard_idx i`) so it parallelizes across many GPUs, and runs in the conda env shown below (set up in [Installation](#installation)).
 
 | Step | Script | What it does | Component | Env |
 |---|---|---|---|---|
@@ -23,39 +21,84 @@ Each step is **sharded** (process a subset of clips per job) so the pipeline par
 | 9 | `step9_spatracker.py` | 3D point tracks + metric depth → `spatracker.npz` | [SpaTrackerV2](https://github.com/henry123-boy/SpaTrackerV2) | `fpose` |
 | 10 | `step10_fpose.py` | 6-DoF object pose tracking → `foundationpose10/` | [FoundationPose](https://github.com/NVlabs/FoundationPose) | `fpose` |
 
-`utils.py` holds shared helpers used across the steps. Default input/output roots are `./EPIC-KITCHENS` (source videos) and `./manip_data` (clips + per-object outputs); override per script via `--help`.
+`utils.py` holds shared helpers used across the steps. Default roots are `./EPIC-KITCHENS` (source videos) and `./manip_data` (clips + per-object outputs); override per script via `--help`.
 
-## Setup
+## Installation
 
-1. **Get EPIC-KITCHENS-100** and agree to its [terms](https://epic-kitchens.github.io).
-2. **Install each component** in its own conda env (versions/weights per upstream). Suggested envs (one per stage group):
+Each stage wraps a separate third-party system, bundled in this repo under its own subdirectory with its original install files, weight downloaders, and license. The pipeline uses **five conda environments** — install the ones you need. A recent CUDA toolkit (11/12) and a GPU are required throughout.
 
-   ```bash
-   conda create -n egohos python=3.9   # then install EgoHOS + mmsegmentation
-   conda create -n sam    python=3.11  # SAM 2
-   conda create -n vas    python=3.10  # Diffusion-VAS
-   conda create -n trellis python=3.10 # TRELLIS
-   conda create -n fpose  python=3.9   # FoundationPose / SpaTrackerV2 / InternVL utilities
-   ```
+**`egohos` — EgoHOS (step 2)**
+```bash
+cd EgoHOS
+conda create -n egohos python=3.9 -y && conda activate egohos
+pip install -r requirements.txt          # includes mmsegmentation
+bash download_checkpoints.sh
+cd ..
+```
 
-   Follow each component's README (in its subdirectory) to install it and download its checkpoints.
-3. **Run the steps in order**, activating the matching env for each (see the table). Each script takes `--help` for sharding/path options, e.g.:
+**`sam` — SAM 2 (step 4)**
+```bash
+cd sam2
+conda create -n sam python=3.11 -y && conda activate sam
+pip install -e .
+# download the SAM 2.1 checkpoints — see sam2/INSTALL.md
+cd ..
+```
 
-   ```bash
-   conda activate egohos && python step2_egohos.py --shard 0 --num-shards 64 --data-root /path/to/clips
-   ```
+**`vas` — Diffusion-VAS (step 7)**
+```bash
+cd diffusion-vas
+conda create -n vas python=3.10 -y && conda activate vas
+pip install -r requirements.txt
+# download the Diffusion-VAS checkpoints — see diffusion-vas/README.md
+cd ..
+```
+
+**`trellis` — TRELLIS (step 8)**
+```bash
+cd trellis
+. ./setup.sh --new-env --basic           # creates the 'trellis' env + installs deps (see ./setup.sh --help)
+cd ..
+```
+
+**`fpose` — FoundationPose · SpaTrackerV2 · InternVL · video IO (steps 1, 3, 5, 6, 9, 10)**
+```bash
+cd FoundationPose
+bash build_all_conda.sh                   # builds its conda env + CUDA extensions (see FoundationPose/readme.md)
+conda activate fpose                      # use the env name the build script creates
+pip install -r ../SpaTrackerV2/requirements.txt          # SpaTrackerV2 (step 9)
+pip install transformers accelerate einops timm decord   # InternVL filtering (5–6) + clip splitting (1)
+cd ..
+```
+
+Each component downloads its own model weights on setup or first use — follow the install/README inside its subdirectory.
+
+## Running the pipeline
+
+1. **Get EPIC-KITCHENS-100** (agree to its [terms](https://epic-kitchens.github.io)) and place the source videos under `./EPIC-KITCHENS`.
+2. **Run the steps in order**, activating the matching env and sharding across jobs. Every script takes `--num_shards`/`--shard_idx` and `--help`:
+
+```bash
+conda activate fpose  && python step1_split.py    --video_root ./EPIC-KITCHENS --out_root ./manip_data
+conda activate egohos && python step2_egohos.py   --data_root  ./manip_data --num_shards 64 --shard_idx 0
+conda activate fpose  && python step3_filtering.py --data_root  ./manip_data
+conda activate sam    && python step4_sam.py      --video_root ./manip_data --num_shards 64 --shard_idx 0
+# steps 5–10 likewise (see each script's --help for its flags)
+```
+
+Shard a step across N jobs by launching it once per `--shard_idx` in `[0, N)`.
 
 ## Output
 
-Per action clip (`<narration_id>/`): EgoHOS + SAM 2 + amodal masks, a TRELLIS mesh per object, SpaTrackerV2 depth & 3D tracks (`spatracker.npz`), and FoundationPose 6-DoF poses (`foundationpose10/`). The dataloader in [RustinS/ObjectForesight](https://github.com/RustinS/ObjectForesight) windows these into training trajectories. The cleaned, packaged result is [`raivn/ObjectForesight-EPIC`](https://huggingface.co/datasets/raivn/ObjectForesight-EPIC).
+Per action clip (`<narration_id>/`): EgoHOS + SAM 2 + amodal masks, a TRELLIS mesh per object, SpaTrackerV2 depth & 3D tracks (`spatracker.npz`), and FoundationPose 6-DoF poses (`foundationpose10/`). The dataloader in [RustinS/ObjectForesight](https://github.com/RustinS/ObjectForesight) windows these into training trajectories; the cleaned, packaged result is [`raivn/ObjectForesight-EPIC`](https://huggingface.co/datasets/raivn/ObjectForesight-EPIC).
 
 ## Built on
 
-This pipeline is **built on** the following third-party systems, **bundled here for convenience** — see each subdirectory and its upstream project for installation, weights, and license terms: [EgoHOS](https://github.com/owenzlz/EgoHOS), [SAM 2](https://github.com/facebookresearch/sam2), [Diffusion-VAS](diffusion-vas/), [TRELLIS](https://github.com/microsoft/TRELLIS), [SpaTrackerV2](https://github.com/henry123-boy/SpaTrackerV2), [FoundationPose](https://github.com/NVlabs/FoundationPose), and [InternVL](https://github.com/OpenGVLab/InternVL). The step table above maps each component to the stage that uses it. The bundled copies may include local modifications made for pipeline integration — consult each subdirectory for specifics.
+This pipeline is built on the third-party systems listed in the [pipeline table](#pipeline) — [EgoHOS](https://github.com/owenzlz/EgoHOS), [SAM 2](https://github.com/facebookresearch/sam2), [Diffusion-VAS](diffusion-vas/), [TRELLIS](https://github.com/microsoft/TRELLIS), [SpaTrackerV2](https://github.com/henry123-boy/SpaTrackerV2), [FoundationPose](https://github.com/NVlabs/FoundationPose), and [InternVL](https://github.com/OpenGVLab/InternVL) — bundled here for convenience. The bundled copies may include local modifications made for pipeline integration; consult each subdirectory for specifics.
 
 ## License
 
-Pipeline code is for **non-commercial research**. It is a derivative-processing pipeline over **EPIC-KITCHENS-100** (CC BY-NC 4.0). **Each vendored component retains its own license** (e.g. FoundationPose is NVIDIA source-available/non-commercial) — review and comply with each before use or redistribution.
+Pipeline code is for **non-commercial research**. It is a derivative-processing pipeline over **EPIC-KITCHENS-100** (CC BY-NC 4.0). **Each bundled component retains its own license** (e.g. FoundationPose is NVIDIA source-available / non-commercial) — review and comply with each before use or redistribution.
 
 ## Citation
 
