@@ -24,7 +24,7 @@ PRESENCE_COLUMNS = [
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Compute hand/object presence flags from EgoHOS masks.")
-    parser.add_argument("--data_root", type=str, default="/gpfs/scrubbed/rustin/manip_data", help="Root directory containing narration_id folders with action.mp4 and egohos/")
+    parser.add_argument("--data_root", type=str, default="./manip_data", help="Root directory containing narration_id folders with action.mp4 and egohos/")
     parser.add_argument("--csv_file", type=str, default="EPIC_100.csv", help="CSV manifest to update (should contain narration_id column)")
     parser.add_argument("--threshold_ratio", type=float, default=0.1, help="Ratio of total frames used as smoothing threshold for presence.")
     parser.add_argument("--start_video_idx", type=int, default=0, help="Optional manual slice start index into the list of videos (after sharding).")

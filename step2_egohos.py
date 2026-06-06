@@ -33,7 +33,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 def parse_args():
     p = argparse.ArgumentParser(description="EgoHOS batched inference (sharded for Slurm arrays)")
-    p.add_argument("--data_root", type=str, default="/gpfs/scrubbed/rustin/manip_data")
+    p.add_argument("--data_root", type=str, default="./manip_data")
     p.add_argument("--csv_file", type=str, default="EPIC_100.csv")
     p.add_argument("--start_video_idx", type=int, default=0)
     p.add_argument("--end_video_idx", type=int, default=-1)

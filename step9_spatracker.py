@@ -41,7 +41,7 @@ def stable_int_hash(s: str) -> int:
 
 def parse_args():
     p = argparse.ArgumentParser(description="SpaTrackerV2 over EPIC videos (sharded).")
-    p.add_argument("--video_root", type=str, default="/gpfs/scrubbed/rustin/manip_data")
+    p.add_argument("--video_root", type=str, default="./manip_data")
     p.add_argument("--csv_file", type=str, default="EPIC_100.csv")
     p.add_argument("--start_video_idx", type=int, default=0)
     p.add_argument("--end_video_idx", type=int, default=-1)

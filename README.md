@@ -18,12 +18,12 @@ Each step is **sharded** (process a subset of clips per job) so the pipeline par
 | 4 | `step4_sam.py` | Propagate/refine object masks | [SAM 2](https://github.com/facebookresearch/sam2) | `sam` |
 | 5 | `step5_obj_filter.py` | Verify object tracks (InternVL); write `moved_by_hand.txt` | [InternVL](https://github.com/OpenGVLab/InternVL) | `fpose` |
 | 6 | `step6_frame_filter.py` | Filter crops/masks by visibility (InternVL yes/partial/no) | InternVL | `fpose` |
-| 7 | `step7_vas.py` | Amodal mask completion | [Diffusion-VAS](https://github.com/diffusion-vas) | `vas` |
+| 7 | `step7_vas.py` | Amodal mask completion | [Diffusion-VAS](diffusion-vas/) | `vas` |
 | 8 | `step8_trellis.py` | Image-to-3D object mesh | [TRELLIS](https://github.com/microsoft/TRELLIS) | `trellis` |
 | 9 | `step9_spatracker.py` | 3D point tracks + metric depth → `spatracker.npz` | [SpaTrackerV2](https://github.com/henry123-boy/SpaTrackerV2) | `fpose` |
 | 10 | `step10_fpose.py` | 6-DoF object pose tracking → `foundationpose10/` | [FoundationPose](https://github.com/NVlabs/FoundationPose) | `fpose` |
 
-`sam3d.py` is an alternative pose path (SAM-3D); `utils.py` and `extract_poses_for_viz.py` are shared helpers.
+`utils.py` holds shared helpers used across the steps. Default input/output roots are `./EPIC-KITCHENS` (source videos) and `./manip_data` (clips + per-object outputs); override per script via `--help`.
 
 ## Setup
 
@@ -48,6 +48,10 @@ Each step is **sharded** (process a subset of clips per job) so the pipeline par
 ## Output
 
 Per action clip (`<narration_id>/`): EgoHOS + SAM 2 + amodal masks, a TRELLIS mesh per object, SpaTrackerV2 depth & 3D tracks (`spatracker.npz`), and FoundationPose 6-DoF poses (`foundationpose10/`). The dataloader in [RustinS/ObjectForesight](https://github.com/RustinS/ObjectForesight) windows these into training trajectories. The cleaned, packaged result is [`raivn/ObjectForesight-EPIC`](https://huggingface.co/datasets/raivn/ObjectForesight-EPIC).
+
+## Built on
+
+This pipeline is **built on** the following third-party systems, **bundled here for convenience** — see each subdirectory and its upstream project for installation, weights, and license terms: [EgoHOS](https://github.com/owenzlz/EgoHOS), [SAM 2](https://github.com/facebookresearch/sam2), [Diffusion-VAS](diffusion-vas/), [TRELLIS](https://github.com/microsoft/TRELLIS), [SpaTrackerV2](https://github.com/henry123-boy/SpaTrackerV2), [FoundationPose](https://github.com/NVlabs/FoundationPose), and [InternVL](https://github.com/OpenGVLab/InternVL). The step table above maps each component to the stage that uses it. The bundled copies may include local modifications made for pipeline integration — consult each subdirectory for specifics.
 
 ## License
 

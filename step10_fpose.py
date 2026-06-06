@@ -55,8 +55,8 @@ def as_float(x, default=float("nan")):
 def load_config():
     p = argparse.ArgumentParser(description="FoundationPose tracking over EPIC (driver like step7_vas).")
 
-    p.add_argument("--video_root", default="/gpfs/scrubbed/rustin/manip_data", help="Root containing narration_id/*/action.mp4 and objects/")
-    p.add_argument("--output_root", default="/gpfs/scrubbed/rustin/manip_data", help="Where narration_id subfolders live (usually same as video_root)")
+    p.add_argument("--video_root", default="./manip_data", help="Root containing narration_id/*/action.mp4 and objects/")
+    p.add_argument("--output_root", default="./manip_data", help="Where narration_id subfolders live (usually same as video_root)")
     p.add_argument("--csv_file", type=str, default="EPIC_100.csv", help="EPIC csv with narration_id,duration_s,no_hands_presence,...")
     p.add_argument("--ext", type=str, default="mp4", help="Video extension (case-insensitive match on 'action.mp4')")
 

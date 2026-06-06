@@ -34,8 +34,8 @@ IMAGENET_STD = (0.229, 0.224, 0.225)
 
 def load_config():
     parser = argparse.ArgumentParser(description="Verify SAM2 tracks with InternVL (sharded).")
-    parser.add_argument("--video_root", default="/gpfs/scrubbed/rustin/manip_data", help="Root containing narration_id/*/action.mp4 and objects/")
-    parser.add_argument("--output_root", default="/gpfs/scrubbed/rustin/manip_data", help="Where narration_id subfolders live")
+    parser.add_argument("--video_root", default="./manip_data", help="Root containing narration_id/*/action.mp4 and objects/")
+    parser.add_argument("--output_root", default="./manip_data", help="Where narration_id subfolders live")
     parser.add_argument("--csv_file", type=str, default="EPIC_100.csv", help="EPIC csv with narration_id,duration_s,no_hands_presence")
     parser.add_argument("--ext", type=str, default="mp4", help="Video extension")
     parser.add_argument("--start_video_idx", type=int, default=0, help="Manual slice start (AFTER sharding)")

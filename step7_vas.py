@@ -101,8 +101,8 @@ def stable_int_hash(s: str) -> int:
 
 def load_config():
     p = argparse.ArgumentParser(description="Diffusion-VAS: amodal mask completion over EPIC (sharded).")
-    p.add_argument("--video_root", default="/gpfs/scrubbed/rustin/manip_data")
-    p.add_argument("--output_root", default="/gpfs/scrubbed/rustin/manip_data")
+    p.add_argument("--video_root", default="./manip_data")
+    p.add_argument("--output_root", default="./manip_data")
     p.add_argument("--csv_file", default="EPIC_100.csv")
     p.add_argument("--ext", default="mp4")
     p.add_argument("--start_video_idx", type=int, default=0)

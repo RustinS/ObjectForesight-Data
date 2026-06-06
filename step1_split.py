@@ -326,8 +326,8 @@ def process_video(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Split EPIC-Kitchens videos into action segments.")
     parser.add_argument("--epic_csv", default="EPIC_100.csv", help="Path to EPIC annotations CSV")
-    parser.add_argument("--video_root", default="/gpfs/datasets/epic_kitchens", help="Root directory containing source videos")
-    parser.add_argument("--out_root", default="/gpfs/scrubbed/rustin/manip_data", help="Output directory for segments")
+    parser.add_argument("--video_root", default="./EPIC-KITCHENS", help="Root directory containing source videos")
+    parser.add_argument("--out_root", default="./manip_data", help="Output directory for segments")
     parser.add_argument("--pad_frames", type=int, default=5, help="Pad each segment by this many frames on both sides")
     parser.add_argument("--workers", type=int, default=8, help="Number of parallel worker processes")
     parser.add_argument("--chunk", type=int, default=256, help="Upper bound on frames decoded per batch")
