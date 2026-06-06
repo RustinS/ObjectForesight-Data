@@ -92,26 +92,22 @@ Shard a step across N jobs by launching it once per `--shard_idx` in `[0, N)`.
 
 Per action clip (`<narration_id>/`): EgoHOS + SAM 2 + amodal masks, a TRELLIS mesh per object, SpaTrackerV2 depth & 3D tracks (`spatracker.npz`), and FoundationPose 6-DoF poses (`foundationpose10/`). The dataloader in [RustinS/ObjectForesight](https://github.com/RustinS/ObjectForesight) windows these into training trajectories; the cleaned, packaged result is [`raivn/ObjectForesight-EPIC`](https://huggingface.co/datasets/raivn/ObjectForesight-EPIC).
 
-## Built on
+## Acknowledgments
 
-This pipeline is built on the third-party systems listed in the [pipeline table](#pipeline) — [EgoHOS](https://github.com/owenzlz/EgoHOS), [SAM 2](https://github.com/facebookresearch/sam2), [Diffusion-VAS](diffusion-vas/), [TRELLIS](https://github.com/microsoft/TRELLIS), [SpaTrackerV2](https://github.com/henry123-boy/SpaTrackerV2), [FoundationPose](https://github.com/NVlabs/FoundationPose), and [InternVL](https://github.com/OpenGVLab/InternVL) — bundled here for convenience. The bundled copies may include local modifications made for pipeline integration; consult each subdirectory for specifics.
+This pipeline builds on [EgoHOS](https://github.com/owenzlz/EgoHOS), [SAM 2](https://github.com/facebookresearch/sam2), [Diffusion-VAS](diffusion-vas/), [TRELLIS](https://github.com/microsoft/TRELLIS), [SpaTrackerV2](https://github.com/henry123-boy/SpaTrackerV2), [FoundationPose](https://github.com/NVlabs/FoundationPose), and [InternVL](https://github.com/OpenGVLab/InternVL) (the [pipeline table](#pipeline) shows which stage uses each), bundled here under their respective licenses. The bundled copies may include minor local modifications for pipeline integration.
 
 ## License
 
-The pipeline orchestration code (`step*.py`, `utils.py`) is released for **non-commercial research**. It is a derivative-processing pipeline over **EPIC-KITCHENS-100** (CC BY-NC 4.0).
+The pipeline code (`step*.py`, `utils.py`) is released for non-commercial research, in keeping with EPIC-KITCHENS-100 (CC BY-NC 4.0) and the bundled components below. Each component retains its own license, kept in its subdirectory:
 
-Each bundled component keeps its **own license** (retained in its subdirectory):
+| Component | License |
+|---|---|
+| EgoHOS, Diffusion-VAS, TRELLIS (core) | MIT |
+| SAM 2 | Apache-2.0 |
+| SpaTrackerV2 | CC BY-NC 4.0 |
+| FoundationPose | NVIDIA Source Code License |
 
-| Component | License | Commercial use |
-|---|---|---|
-| EgoHOS | MIT | ✅ |
-| SAM 2 | Apache-2.0 | ✅ |
-| Diffusion-VAS | MIT | ✅ |
-| TRELLIS (core) | MIT | ✅ |
-| SpaTrackerV2 | CC BY-NC 4.0 | ❌ non-commercial |
-| FoundationPose | NVIDIA Source Code License | ❌ non-commercial / research only |
-
-> ⚠️ **Because of SpaTrackerV2 (CC BY-NC 4.0), FoundationPose (NVIDIA Source Code License), and EPIC-KITCHENS-100 itself, this pipeline and its outputs are restricted to non-commercial research use.** All bundled components permit redistribution under their terms provided their LICENSE files are retained (they are). TRELLIS's optional renderer submodules (diffoctreerast, FlexiCubes), if installed, carry their own non-commercial licenses. Review and comply with each component's license before use or redistribution.
+Please review each component's license before use or redistribution.
 
 ## Citation
 
