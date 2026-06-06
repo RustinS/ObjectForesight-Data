@@ -98,16 +98,7 @@ This pipeline builds on [EgoHOS](https://github.com/owenzlz/EgoHOS), [SAM 2](htt
 
 ## License
 
-The pipeline code (`step*.py`, `utils.py`) is released for non-commercial research, in keeping with EPIC-KITCHENS-100 (CC BY-NC 4.0) and the bundled components below. Each component retains its own license, kept in its subdirectory:
-
-| Component | License |
-|---|---|
-| EgoHOS, Diffusion-VAS, TRELLIS (core) | MIT |
-| SAM 2 | Apache-2.0 |
-| SpaTrackerV2 | CC BY-NC 4.0 |
-| FoundationPose | NVIDIA Source Code License |
-
-Please review each component's license before use or redistribution.
+Pipeline code (`step*.py`, `utils.py`) is for non-commercial research use, consistent with EPIC-KITCHENS-100 (CC BY-NC 4.0). Each bundled component keeps its own license — see its subdirectory.
 
 ## Citation
 
