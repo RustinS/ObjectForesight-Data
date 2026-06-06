@@ -1,0 +1,11 @@
+gradio_imageslider
+gradio
+matplotlib
+opencv-python
+transformers
+accelerate
+pycocotools
+imageio
+scipy
+einops
+omegaconf

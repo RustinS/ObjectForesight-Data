@@ -1,0 +1,134 @@
+# General
+.DS_Store
+Thumbs.db
+.env
+.env.*
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# C/C++/CMake build artifacts
+**/build/
+**/CMakeFiles/
+**/CMakeCache.txt
+**/*.o
+**/*.a
+**/*.la
+**/*.lo
+**/*.dll
+**/*.dylib
+**/*.lib
+**/*.exe
+**/*.out
+
+# Heavy model/checkpoint files
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+*.tflite
+*.engine
+*.pb
+
+# Large array/data blobs
+*.npz
+*.npy
+*.pkl
+*.pickle
+*.mat
+*.h5
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+
+# Training/runtime outputs (common names)
+outputs/
+results/
+runs/
+logs/
+wandb/
+tensorboard/
+tb_logs/
+lightning_logs/
+.cache/
+**/outputs/
+**/results/
+**/runs/
+**/logs/
+**/wandb/
+**/tensorboard/
+**/tb_logs/
+**/lightning_logs/
+**/.cache/
+
+# Project-specific heavy dirs
+csv_shards/
+EgoHOS/mmsegmentation/work_dirs/
+FoundationPose/weights/
+FoundationPose/mycpp/build/
+diffusion-vas/checkpoints/
+diffusion-vas/outputs/
+sam2/checkpoints/
+future_pose_pred/.venv/
+future_pose_pred/outputs/
+future_pose_pred/tests/
+future_pose_pred/src/fetch_luma_videos.py
+future_pose_pred/src/eval_luma.py
+future_pose_pred/docs
+
+# Optional: ignore local datasets (uncomment if applicable)
+data/
+# datasets/
+demo_data/
+
+*.ipynb
+testing/
+
+luma_single/
+luma_out/
+luma_full_videos/
+luma/
+
+viser_viz.py
+sandbox.py
+
+*.csv
+
+step6_trellis.py
+extract_and_eval_luma.py
+
+test.mp4
+vizer.py
+video_folders.txt
+
+tmp/
+/scripts/
+step3_1_filtering.py
+
+.cursor/
