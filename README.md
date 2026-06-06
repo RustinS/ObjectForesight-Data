@@ -2,6 +2,11 @@
 
 **The 3D data-curation pipeline that turns raw [EPIC-KITCHENS-100](https://epic-kitchens.github.io) videos into per-object 6-DoF trajectory extractions.**
 
+[![Paper](https://img.shields.io/badge/arXiv-2601.05237-b31b1b.svg)](https://arxiv.org/abs/2601.05237)
+[![Model code](https://img.shields.io/badge/GitHub-ObjectForesight-181717.svg)](https://github.com/RustinS/ObjectForesight)
+[![Dataset](https://img.shields.io/badge/🤗%20Dataset-ObjectForesight--EPIC-yellow)](https://huggingface.co/datasets/raivn/ObjectForesight-EPIC)
+[![Weights](https://img.shields.io/badge/🤗%20Weights-ObjectForesight--EPIC--DiT-yellow)](https://huggingface.co/raivn/ObjectForesight-EPIC-DiT)
+
 This is the data pipeline behind [**ObjectForesight**](https://arxiv.org/abs/2601.05237). It produces the extractions released as the [`raivn/ObjectForesight-EPIC`](https://huggingface.co/datasets/raivn/ObjectForesight-EPIC) dataset, which trains the model in [**RustinS/ObjectForesight**](https://github.com/RustinS/ObjectForesight).
 
 ## Pipeline
