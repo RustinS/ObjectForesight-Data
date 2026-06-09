@@ -53,7 +53,7 @@ def as_float(x, default=float("nan")):
 
 
 def load_config():
-    p = argparse.ArgumentParser(description="FoundationPose tracking over EPIC (driver like step7_vas).")
+    p = argparse.ArgumentParser(description="FoundationPose 6-DoF tracking over EPIC clips (sharded).")
 
     p.add_argument("--video_root", default="./manip_data", help="Root containing narration_id/*/action.mp4 and objects/")
     p.add_argument("--output_root", default="./manip_data", help="Where narration_id subfolders live (usually same as video_root)")
@@ -68,7 +68,7 @@ def load_config():
     p.add_argument("--num_shards", type=int, default=1, help="Total number of shards for job array.")
     p.add_argument("--shard_idx", type=int, default=0, help="This shard index [0..num_shards-1].")
 
-    # FoundationPose/reader specific args (unchanged functionality)
+    # FoundationPose / reader-specific args
     p.add_argument("--depth_unit_scale", type=float, default=1.0)
     p.add_argument("--est_refine_iter", type=int, default=5)
     p.add_argument("--track_refine_iter", type=int, default=1)
@@ -82,7 +82,7 @@ def load_config():
     p.add_argument("--init_candidates", type=int, default=5, help="Number of candidate frames to try for initialization")
     p.add_argument("--min_init_iou", type=float, default=0.4, help="Minimum IoU required to accept initial pose and proceed")
 
-    # Deprecated/conf kept for compatibility
+    # Initialization and re-registration controls
     p.add_argument("--init_lock_scale", action="store_true", help="Use a single robust scale for all init candidates")
     p.add_argument("--mesh_dir", default="trellis", help="Folder under each object that contains model.glb (e.g., trellis)")
     p.add_argument("--reinit_max_retries", type=int, default=5, help="Re-register attempts on the same frame before clean-mask fallback")

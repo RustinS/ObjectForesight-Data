@@ -206,7 +206,7 @@ if [ "$KAOLIN" = true ] ; then
         echo "[KAOLIN] Unsupported platform: $PLATFORM"
     fi
 fi
-git clone --recursive https://github.com/NVIDIAGameWorks/kaolin /gpfs/scrubbed/rustin/tmp/extensions/kaolin
+git clone --recursive https://github.com/NVIDIAGameWorks/kaolin /tmp/extensions/kaolin
 cd kaolin
 git checkout v0.17.0
 pip install -r tools/build_requirements.txt -r tools/viz_requirements.txt -r tools/requirements.txt
@@ -214,9 +214,9 @@ python setup.py develop
 
 if [ "$NVDIFFRAST" = true ] ; then
     if [ "$PLATFORM" = "cuda" ] ; then
-        mkdir -p /gpfs/scrubbed/rustin/tmp/extensions
-        git clone https://github.com/NVlabs/nvdiffrast.git /gpfs/scrubbed/rustin/tmp/extensions/nvdiffrast
-        pip install /gpfs/scrubbed/rustin/tmp/extensions/nvdiffrast --no-build-isolation
+        mkdir -p /tmp/extensions
+        git clone https://github.com/NVlabs/nvdiffrast.git /tmp/extensions/nvdiffrast
+        pip install /tmp/extensions/nvdiffrast --no-build-isolation
     else
         echo "[NVDIFFRAST] Unsupported platform: $PLATFORM"
     fi
@@ -224,9 +224,9 @@ fi
 
 if [ "$DIFFOCTREERAST" = true ] ; then
     if [ "$PLATFORM" = "cuda" ] ; then
-        mkdir -p /gpfs/scrubbed/rustin/tmp/extensions
-        git clone --recurse-submodules https://github.com/JeffreyXiang/diffoctreerast.git /gpfs/scrubbed/rustin/tmp/extensions/diffoctreerast
-        pip install /gpfs/scrubbed/rustin/tmp/extensions/diffoctreerast --no-build-isolation
+        mkdir -p /tmp/extensions
+        git clone --recurse-submodules https://github.com/JeffreyXiang/diffoctreerast.git /tmp/extensions/diffoctreerast
+        pip install /tmp/extensions/diffoctreerast --no-build-isolation
     else
         echo "[DIFFOCTREERAST] Unsupported platform: $PLATFORM"
     fi
@@ -234,9 +234,9 @@ fi
 
 if [ "$MIPGAUSSIAN" = true ] ; then
     if [ "$PLATFORM" = "cuda" ] ; then
-        mkdir -p /gpfs/scrubbed/rustin/tmp/extensions
-        git clone https://github.com/autonomousvision/mip-splatting.git /gpfs/scrubbed/rustin/tmp/extensions/mip-splatting
-        pip install /gpfs/scrubbed/rustin/tmp/extensions/mip-splatting/submodules/diff-gaussian-rasterization/ --no-build-isolation
+        mkdir -p /tmp/extensions
+        git clone https://github.com/autonomousvision/mip-splatting.git /tmp/extensions/mip-splatting
+        pip install /tmp/extensions/mip-splatting/submodules/diff-gaussian-rasterization/ --no-build-isolation
     else
         echo "[MIPGAUSSIAN] Unsupported platform: $PLATFORM"
     fi
@@ -244,9 +244,9 @@ fi
 
 if [ "$VOX2SEQ" = true ] ; then
     if [ "$PLATFORM" = "cuda" ] ; then
-        mkdir -p /gpfs/scrubbed/rustin/tmp/extensions
-        cp -r extensions/vox2seq /gpfs/scrubbed/rustin/tmp/extensions/vox2seq
-        pip install /gpfs/scrubbed/rustin/tmp/extensions/vox2seq
+        mkdir -p /tmp/extensions
+        cp -r extensions/vox2seq /tmp/extensions/vox2seq
+        pip install /tmp/extensions/vox2seq
     else
         echo "[VOX2SEQ] Unsupported platform: $PLATFORM"
     fi
@@ -265,13 +265,13 @@ if [ "$SPCONV" = true ] ; then
     fi
 fi
 
-git clone https://github.com/FindDefinition/cumm /gpfs/scrubbed/rustin/tmp/extensions/cumm
-pip install /gpfs/scrubbed/rustin/tmp/extensions/cumm --no-build-isolation
-git clone https://github.com/traveller59/spconv /gpfs/scrubbed/rustin/tmp/extensions/spconv
-pip install /gpfs/scrubbed/rustin/tmp/extensions/spconv --no-build-isolation
+git clone https://github.com/FindDefinition/cumm /tmp/extensions/cumm
+pip install /tmp/extensions/cumm --no-build-isolation
+git clone https://github.com/traveller59/spconv /tmp/extensions/spconv
+pip install /tmp/extensions/spconv --no-build-isolation
 
-git clone --recursive https://github.com/NVIDIAGameWorks/kaolin /gpfs/scrubbed/rustin/tmp/extensions/kaolin
-pip install /gpfs/scrubbed/rustin/tmp/extensions/kaolin --no-build-isolation
+git clone --recursive https://github.com/NVIDIAGameWorks/kaolin /tmp/extensions/kaolin
+pip install /tmp/extensions/kaolin --no-build-isolation
 
 if [ "$DEMO" = true ] ; then
     pip install gradio==4.44.1 gradio_litmodel3d==0.0.1

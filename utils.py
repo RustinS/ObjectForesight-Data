@@ -15,7 +15,7 @@ from PIL import Image
 from rich.console import Console
 from tqdm.rich import tqdm
 
-_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))  # project root (contains 'src')
+_ROOT = os.path.dirname(os.path.abspath(__file__))  # repo root, for relative path display in logs
 console = Console()
 
 def rprint(*args, stack_level: int = 1, print_location: bool = False, no_extra: bool = False, **kwargs) -> None:

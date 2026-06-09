@@ -269,7 +269,7 @@ def process_video_objects(vpath: str, objects_path: Path, trellis_pipeline, flux
 
 
 # -------------------------
-# Main driver (mirrors step6)
+# Main driver
 # -------------------------
 def main():
     cfg = load_config()

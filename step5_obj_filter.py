@@ -20,7 +20,7 @@ from transformers import AutoModel, AutoTokenizer, BitsAndBytesConfig
 
 from utils import rprint as print
 
-os.environ.update({"SPCONV_ALGO": "native", "OMP_NUM_THREADS": "1", "OMP_WAIT_POLICY": "ACTIVE", "OMP_PROC_BIND": "false", "ORT_DISABLE_THREAD_AFFINITY": "1"})
+os.environ.update({"OMP_NUM_THREADS": "1", "OMP_WAIT_POLICY": "ACTIVE", "OMP_PROC_BIND": "false", "ORT_DISABLE_THREAD_AFFINITY": "1"})
 warnings.filterwarnings("ignore")
 
 try:

@@ -1,4 +1,4 @@
-# ObjectForesight — Data Curation Pipeline
+# ObjectForesight: Data Curation Pipeline
 
 **The 3D data-curation pipeline that turns raw [EPIC-KITCHENS-100](https://epic-kitchens.github.io) videos into per-object 6-DoF trajectory extractions.**
 
@@ -17,7 +17,7 @@ Run `step1`→`step10` in order. Each step is **sharded** (`--num_shards N --sha
 |---|---|---|---|---|
 | 1 | `step1_split.py` | Split EPIC videos into action clips (by `narration_id`) | ffmpeg/decord | `fpose` |
 | 2 | `step2_egohos.py` | Hand & object segmentation | [EgoHOS](https://github.com/owenzlz/EgoHOS) | `egohos` |
-| 3 | `step3_filtering.py` | Drop low-quality sequences | — | `fpose` |
+| 3 | `step3_filtering.py` | Drop low-quality sequences | none | `fpose` |
 | 4 | `step4_sam.py` | Propagate/refine object masks | [SAM 2](https://github.com/facebookresearch/sam2) | `sam` |
 | 5 | `step5_obj_filter.py` | Verify object tracks (InternVL); write `moved_by_hand.txt` | [InternVL](https://github.com/OpenGVLab/InternVL) | `fpose` |
 | 6 | `step6_frame_filter.py` | Filter crops/masks by visibility (InternVL yes/partial/no) | InternVL | `fpose` |
@@ -30,9 +30,9 @@ Run `step1`→`step10` in order. Each step is **sharded** (`--num_shards N --sha
 
 ## Installation
 
-Each stage wraps a separate third-party system, bundled in this repo under its own subdirectory with its original install files, weight downloaders, and license. The pipeline uses **five conda environments** — install the ones you need. A recent CUDA toolkit (11/12) and a GPU are required throughout.
+Each stage wraps a separate third-party system, bundled in this repo under its own subdirectory with its original install files, weight downloaders, and license. The pipeline uses **five conda environments**; install the ones you need. A recent CUDA toolkit (11/12) and a GPU are required throughout.
 
-**`egohos` — EgoHOS (step 2)**
+**`egohos`: EgoHOS (step 2)**
 ```bash
 cd EgoHOS
 conda create -n egohos python=3.9 -y && conda activate egohos
@@ -41,32 +41,32 @@ bash download_checkpoints.sh
 cd ..
 ```
 
-**`sam` — SAM 2 (step 4)**
+**`sam`: SAM 2 (step 4)**
 ```bash
 cd sam2
 conda create -n sam python=3.11 -y && conda activate sam
 pip install -e .
-# download the SAM 2.1 checkpoints — see sam2/INSTALL.md
+# download the SAM 2.1 checkpoints (see sam2/INSTALL.md)
 cd ..
 ```
 
-**`vas` — Diffusion-VAS (step 7)**
+**`vas`: Diffusion-VAS (step 7)**
 ```bash
 cd diffusion-vas
 conda create -n vas python=3.10 -y && conda activate vas
 pip install -r requirements.txt
-# download the Diffusion-VAS checkpoints — see diffusion-vas/README.md
+# download the Diffusion-VAS checkpoints (see diffusion-vas/README.md)
 cd ..
 ```
 
-**`trellis` — TRELLIS (step 8)**
+**`trellis`: TRELLIS (step 8)**
 ```bash
 cd trellis
 . ./setup.sh --new-env --basic           # creates the 'trellis' env + installs deps (see ./setup.sh --help)
 cd ..
 ```
 
-**`fpose` — FoundationPose · SpaTrackerV2 · InternVL · video IO (steps 1, 3, 5, 6, 9, 10)**
+**`fpose`: FoundationPose · SpaTrackerV2 · InternVL · video IO (steps 1, 3, 5, 6, 9, 10)**
 ```bash
 cd FoundationPose
 bash build_all_conda.sh                   # builds its conda env + CUDA extensions (see FoundationPose/readme.md)
@@ -76,7 +76,7 @@ pip install transformers accelerate einops timm decord   # InternVL filtering (5
 cd ..
 ```
 
-Each component downloads its own model weights on setup or first use — follow the install/README inside its subdirectory.
+Each component downloads its own model weights on setup or first use; follow the install/README inside its subdirectory.
 
 ## Running the pipeline
 
@@ -103,7 +103,7 @@ This pipeline builds on [EgoHOS](https://github.com/owenzlz/EgoHOS), [SAM 2](htt
 
 ## License
 
-Pipeline code (`step*.py`, `utils.py`) is for non-commercial research use, consistent with EPIC-KITCHENS-100 (CC BY-NC 4.0). Each bundled component keeps its own license — see its subdirectory.
+Pipeline code (`step*.py`, `utils.py`) is for non-commercial research use, consistent with EPIC-KITCHENS-100 (CC BY-NC 4.0). Each bundled component keeps its own license (see its subdirectory).
 
 ## Citation
 

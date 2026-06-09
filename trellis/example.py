@@ -14,7 +14,7 @@ pipeline = TrellisImageTo3DPipeline.from_pretrained("microsoft/TRELLIS-image-lar
 pipeline.cuda()
 
 # Load an image
-image = Image.open("/media/volume/Data/3D/manipObj/tracking_custom_pan/obj_masks/obj_0/00461.jpg")
+image = Image.open("assets/example_image/T.png")
 
 # Run the pipeline
 outputs = pipeline.run(
